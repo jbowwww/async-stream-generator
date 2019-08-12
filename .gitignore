@@ -1,0 +1,4 @@
+/node_modules/*
+mongodb.backup.181116.tar.gz
+*.sublime-workspace
+/couch*/
