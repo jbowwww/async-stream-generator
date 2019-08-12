@@ -1,0 +1,15 @@
+Look at current behaviour in terms of supplying stream options to constructor, in particular highWaterMark
+Current expected behaviour is ignoring of all options
+Assuming expected, try adding (optional) options parameter to StreamGenerator constructor that gets passed (/ merged with current {objectMode:true}) to Readable.call
+Observe new behaviour with highWaterMark
+Hoping this automatically gives same or similar (ideally same) behaviour as a traditional Stream.readable
+Write tests around the above, assert behaviour is same & measure performances
+Use for potential idea of new Progress(new FsIterable(...)).pipe(Artefact.Pipeline.File)
+Artefact.File would be through stream (defined automagically by specifying array of 'promise pipeline' funcs, as per now)
+  - it would have its own backpressure behaviour, highWaterMark etc, possibly/potentially/ideally controlling concurrency of pipeline automagically
+  - maytbe this concuyrrency would be it's own through stream (but constructed using array of promiuse pipe funs)
+  - maybe it would be like new Artefact.Pipeline.File(new Progress(new FsIterable))
+    - maybe you still prefer the in-order style of specifying this pipeline and need another construction fn/constructor so like new:
+      - new PromisePipeline ( new FsIterable(...), Progress, Artefact.Pipeline.File }
+        - PromisePipeline could check each (variadic) arg, if it is a thru stream or async generator thru stream use it, or if it is a function, call it (with or without new?) with previous (thru / Readble if first variadic arg) stream
+Fuck whew, got all that? good.        
